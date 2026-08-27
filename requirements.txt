@@ -2,4 +2,3 @@ streamlit
 streamlit-webrtc
 opencv-python-headless
 mediapipe
-protobuf<4
