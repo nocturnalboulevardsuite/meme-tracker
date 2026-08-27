@@ -5,11 +5,12 @@ import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
 import mediapipe as mp
 
+# Inicializamos MediaPipe globalmente
+mp_face_mesh = mp.solutions.face_mesh
+
 class MemeTrackerProcessor(VideoProcessorBase):
     def __init__(self):
-        # Inicializamos mp_face_mesh aquí adentro para evitar conflictos de recarga
-        self.mp_face_mesh = mp.solutions.face_mesh
-        self.face_mesh = self.mp_face_mesh.FaceMesh(
+        self.face_mesh = mp_face_mesh.FaceMesh(
             max_num_faces=1,
             refine_landmarks=True,
             min_detection_confidence=0.5,
@@ -37,19 +38,18 @@ class MemeTrackerProcessor(VideoProcessorBase):
 
                 # Clasificación de expresión
                 if alto_boca > 25:
-                    meme_text = "😲 Gato Sorprendido"
+                    meme_text = "😲 Sorprendido"
                     color = (0, 255, 255)
                 elif ancho_boca > 80:
-                    meme_text = "😁 Gato Sonriente"
+                    meme_text = "😁 Sonriente"
                     color = (0, 255, 0)
                 else:
-                    meme_text = "😐 Gato Juzgando"
+                    meme_text = "😐 Juzgando"
                     color = (255, 255, 255)
 
                 # Overlay en pantalla
                 cv2.rectangle(img, (20, 20), (380, 70), (0, 0, 0), -1)
-                cv2.putText(img, meme_text, (30, 55),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
+                cv2.putText(img, meme_text, (30, 55), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
 
         return av.VideoFrame.from_ndarray(img, format="bgr24")
 
