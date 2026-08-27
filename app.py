@@ -61,7 +61,7 @@ class MemeTrackerProcessor(VideoProcessorBase):
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5
         )
-        self.img_sorprendido = cargar_imagen_url"(https://es.pinterest.com/ideas/gato-sorprendido-sticker/928330314694/)"
+        self.img_sorprendido = cargar_imagen_url = "(https://es.pinterest.com/ideas/gato-sorprendido-sticker/928330314694/)"
 
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         img = frame.to_ndarray(format="bgr24")
