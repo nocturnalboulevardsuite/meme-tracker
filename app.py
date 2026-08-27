@@ -4,11 +4,12 @@ import numpy as np
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
 import mediapipe as mp
-import mediapipe.solutions.face_mesh as mp_face_mesh
 
 class MemeTrackerProcessor(VideoProcessorBase):
     def __init__(self):
-        self.face_mesh = mp_face_mesh.FaceMesh(
+        # Inicializamos mp_face_mesh aquí adentro para evitar conflictos de recarga
+        self.mp_face_mesh = mp.solutions.face_mesh
+        self.face_mesh = self.mp_face_mesh.FaceMesh(
             max_num_faces=1,
             refine_landmarks=True,
             min_detection_confidence=0.5,
