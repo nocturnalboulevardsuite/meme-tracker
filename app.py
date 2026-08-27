@@ -12,14 +12,14 @@ mp_drawing = mp.solutions.drawing_utils
 # Función auxiliar para descargar una imagen de meme desde una URL
 def cargar_imagen_url(url):
     try:
-        # Añadimos un User-Agent básico por si el servidor bloquea descargas de bots
+        # Añadido un User-Agent para evitar que servidores bloqueen la solicitud por ser un script
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         response = urllib.request.urlopen(req)
         arr = np.asarray(bytearray(response.read()), dtype=np.uint8)
         img = cv2.imdecode(arr, cv2.IMREAD_UNCHANGED)
         return img
     except Exception as e:
-        print(f"Error al cargar la imagen: {e}")
+        print(f"Error cargando imagen: {e}")
         return None
 
 # Función para pegar una imagen (con o sin transparencia PNG) sobre la pantalla
@@ -53,7 +53,7 @@ def superponer_imagen(fondo, overlay, x, y, size=None):
 
     return fondo
 
-# NOTA: Reemplaza esta URL por un enlace directo a una imagen .png o .jpg (Pinterest no funcionará directamente)
+# IMPORTANTE: Reemplaza esta URL por un enlace directo a un archivo de imagen real (.png o .jpg)
 URL_MEME_SORPRENDIDO = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/SNice.svg/200px-SNice.svg.png"
 
 class MemeTrackerProcessor(VideoProcessorBase):
@@ -64,7 +64,7 @@ class MemeTrackerProcessor(VideoProcessorBase):
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5
         )
-        # SINTAXIS CORREGIDA: Llamamos a la función y le pasamos la variable
+        # Corrección: Se invoca la función en lugar de reasignarla a una cadena de texto
         self.img_sorprendido = cargar_imagen_url(URL_MEME_SORPRENDIDO)
 
     def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
